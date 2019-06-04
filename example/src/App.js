@@ -1,12 +1,20 @@
-import React, { Component } from 'react'
-
-import ExampleComponent from 'react-d3-interactome'
+import React, {Component} from 'react'
+import InteractomePlot from 'react-d3-interactome'
+import {__options__} from './mock'
 
 export default class App extends Component {
-  render () {
+  componentDidMount() {
+    let options = {data: __options__}
+    options.el = document.getElementById('interactionsViewerMultipleTargets')
+    if (options) {
+      InteractomePlot.create(options)
+    }
+  }
+
+  render() {
     return (
       <div>
-        <ExampleComponent text='Modern React component module' />
+        <div id='interactionsViewerMultipleTargets' />
       </div>
     )
   }
