@@ -244,11 +244,6 @@ class InteractomePlot {
             enzSubs.push(p)
           }
         })
-
-        onInteraction({
-          header: obj,
-          currentInteractors: interactors
-        })
       })
       .on('loaded', function () {
         // If the 'selected' attribute is passed, we select the node programmatically...

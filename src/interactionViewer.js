@@ -114,8 +114,6 @@ export default function () {
       // All other labels
       labels = graph.selectAll('.openTargets_interactions_label')
         .data(data, d => d.label)
-
-      labels
         .enter()
         .append('g')
         .attr('class', 'openTargets_interactions_label')
@@ -126,10 +124,10 @@ export default function () {
         })
         .attr('fill', 'grey')
         .on('mouseover', function (d) { // No arrow function here because we need the moused over element as _this_
-          dispatch.mouseover.call(this, d)
+          dispatch.call('mouseover', this, d)
         })
         .on('mouseout', function (d) { // No arrow function here because we need the moused over element as _this_
-          dispatch.mouseout.call(this, d)
+          dispatch.call('mouseout', this, d)
         })
         .on('click', function (d) { // No arrow function here because we need the moused over element as _this_
           // dispatch.click.call(this, d)
@@ -138,7 +136,7 @@ export default function () {
 
       // Labels
       labels
-        .append('text')
+        .insert('text')
         .style('font-size', '12px')
         .style('text-anchor', (d) => {
           let grades = d.angle * 180 / Math.PI
@@ -159,7 +157,7 @@ export default function () {
 
       // Nodes
       labels
-        .append('circle')
+        .insert('circle')
         // .attr('fill', '#005299')
         .attr('fill', (data) => {
           return config.colorScale(Object.keys(data.interactsWith).length)
@@ -259,11 +257,11 @@ export default function () {
       if (events) {
         select.call(clickedNode, node)
       }
-      dispatch.select.call(clickedNode, node)
+      dispatch.call('select', clickedNode, node)
     } else if (fixedNodes.has(node.label)) {
       fixedNodes.delete(node.label)
       if (events) {
-        dispatch.unselect.call(clickedNode, node)
+        dispatch.call('unselect', clickedNode, node)
       }
       if (!fixedNodes.size) { // We only had 1 node selected and is now unselected
         // Case 4
@@ -281,20 +279,20 @@ export default function () {
         fixedNodes.clear()
         fixedNodes.set(node.label, node)
         if (events) {
-          dispatch.select.call(clickedNode, node)
+          dispatch.call('select', clickedNode, node)
         }
       } else { // There is already one node selected. Two cases here: there exists a connection between them or not
         if (fixedNodesHasLinkWith(node)) {
           fixedNodes.set(node.label, node)
           if (events) {
-            dispatch.select.call(clickedNode, node)
+            dispatch.call('select', clickedNode, node)
           }
           select2.call(clickedNode, fixedNodes)
         } else { // No link between both, so just select
           fixedNodes.clear()
           fixedNodes.set(node.label, node)
           if (events) {
-            dispatch.select.call(clickedNode, node)
+            dispatch.call('select', clickedNode, node)
           }
           select.call(clickedNode, node)
         }
@@ -452,7 +450,7 @@ export default function () {
       .each(function () {
         n++
       })
-      .each('end', function (d) {
+      .each(function () {
         d3.select(this)
           .style('visibility', (data) => {
             if (data.currentInteractors && Object.keys(data.currentInteractors).length) {
@@ -465,7 +463,7 @@ export default function () {
         // Only for the first time
         if (loaded === false && !--n) {
           loaded = true
-          dispatch.loaded()
+          dispatch.call('loaded')
         }
 
         // If there is any node to click, do it now
@@ -666,7 +664,7 @@ export default function () {
     }
 
     // Fire the interaction event
-    dispatch.interaction.call(clickedNode, interObj)
+    dispatch.call('interaction', clickedNode, interObj)
   }
 
   function addProvenance(iw, i2, provenance) {
