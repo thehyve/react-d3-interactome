@@ -1,0 +1,8 @@
+{
+  "short_name": "react-d3-interactome",
+  "name": "react-d3-interactome",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
