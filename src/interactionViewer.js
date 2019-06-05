@@ -12,7 +12,7 @@ import * as d3 from 'd3'
 export default function () {
   let dispatch = d3.dispatch('click', 'dblclick', 'mouseover', 'mouseout', 'select', 'unselect', 'interaction', 'loaded')
 
-  let config = {
+  const config = {
     // filters: {'Reactome': true},
     filters: {},
     data: [],

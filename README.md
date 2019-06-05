@@ -15,16 +15,40 @@ npm install --save react-d3-interactome
 ```jsx
 import React, { Component } from 'react'
 
-import MyComponent from 'react-d3-interactome'
+import Interactome from 'react-d3-interactome'
 
 class Example extends Component {
-  render () {
+  componentDidMount() {
+    const interactomeColorRange = scaleLinear()
+    .domain([0, 1])
+    .range([rgb('#eed841'), rgb('#551a8b')])
+  
+    const newColorScale = scaleLinear()
+      .domain([0, 1])
+      .range(interactomeColorRange.range())
+        
+    let options = {
+      data: __options__,
+      el: document.getElementById('containerEl'),
+      colorScale: newColorScale
+    }
+
+    if (options) {
+      InteractomePlot.create(options)
+    }
+  }
+
+  render() {
     return (
-      <MyComponent />
+      <div>
+        <div id='containerEl' />
+      </div>
     )
   }
 }
 ```
+
+Check the `/example` for more details.
 
 ## License
 
