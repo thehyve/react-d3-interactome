@@ -1,10 +1,13 @@
 {
   "name": "react-d3-interactome",
   "version": "1.0.0",
-  "description": "",
-  "author": "rnugraha",
+  "description": ">",
+  "author": "thehyve",
   "license": "GPL-3.0-or-later",
-  "repository": "rnugraha/react-d3-interactome",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thehyve/react-d3-interactome.git"
+  },
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "jsnext:main": "dist/index.es.js",
@@ -76,5 +79,19 @@
   "dependencies": {
     "d3": "^5.9.2",
     "tnt.api": "^0.1.1"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/thehyve/react-d3-interactome/issues"
+  },
+  "homepage": "https://github.com/thehyve/react-d3-interactome/blob/master/README.md",
+  "directories": {
+    "example": "example"
+  },
+  "keywords": [
+    "react",
+    "d3",
+    "interactome",
+    "protein",
+    "interactions"
+  ]
 }
