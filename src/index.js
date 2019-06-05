@@ -194,7 +194,7 @@ const composeInteractorsList = (interactors) => {
 
 class InteractomePlot {
   static create = (options) => {
-    const {data, el, onMouseOver, onMouseLeave, onSelectTarget, onDeselectTarget, onInteraction} = options
+    const {data, el, onMouseOver, onMouseLeave, onSelectTarget, onDeselectTarget, onInteraction, colorScale} = options
     const interactors = composeInteractors(data)[0]
     const categories = composeInteractors(data)[1]
     const interactorsList = composeInteractorsList(interactors)
@@ -211,7 +211,7 @@ class InteractomePlot {
       }))
       .selectedNodesColors(interactomeConfig.selectedNodesColors)
       .size(500)
-      .colorScale(interactomeConfig.newColorScale)
+      .colorScale(colorScale)
       .labelSize(90)
       .on('mouseover', (node) => {
         if (onMouseOver) onMouseOver(node)

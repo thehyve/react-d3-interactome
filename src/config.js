@@ -27,12 +27,6 @@ export const newColorScale = scaleLinear()
   .domain([0, 1])
   .range(range)
 
-export const otInteractionTypes = {
-  'Enzyme-substrate': 'Enzyme-substrate relationship',
-  'PPI': 'Protein-protein interaction',
-  'Pathways': 'Shared pathway'
-}
-
 export const otOmnipathdbSources = {
   // Pathways
   'SignaLink3': 'Pathways',
@@ -53,7 +47,7 @@ export const otOmnipathdbSources = {
   'IntAct': 'PPI',
   'DIP': 'PPI',
   'STRING': 'PPI'
-};
+}
 
 export const otOmnipathdbCategories = {
   'Pathways': {
