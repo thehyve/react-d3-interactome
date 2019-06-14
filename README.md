@@ -2,7 +2,10 @@
 
 > 
 
-[![NPM](https://img.shields.io/npm/v/react-d3-interactome.svg)](https://www.npmjs.com/package/react-d3-interactome) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/react-d3-interactome.svg)](https://www.npmjs.com/package/react-d3-interactome)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![build status](https://img.shields.io/travis/thehyve/react-d3-interactome/master.svg)](https://travis-ci.org/thehyve/react-d3-interactome)
+[![codecov](https://img.shields.io/codecov/c/github/thehyve/react-d3-interactome.svg)](https://codecov.io/gh/thehyve/react-d3-interactome)
 
 ## Pre-requisite
 
