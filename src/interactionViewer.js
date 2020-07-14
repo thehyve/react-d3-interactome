@@ -10,7 +10,7 @@ import apijs from 'tnt.api'
 import * as d3 from 'd3'
 
 export default function () {
-  let dispatch = d3.dispatch('click', 'dblclick', 'mouseover', 'mouseout', 'select', 'unselect', 'interaction', 'loaded')
+  const dispatch = d3.dispatch('click', 'dblclick', 'mouseover', 'mouseout', 'select', 'unselect', 'interaction', 'loaded')
 
   const config = {
     // filters: {'Reactome': true},
@@ -25,8 +25,8 @@ export default function () {
       .range([d3.rgb('#FFF500'), d3.rgb('#007AFF')]) // The domain is set dynamically
   }
 
-  let fixedNodes = new Map()
-  let nodes = new Map() // contains a map of the nodes
+  const fixedNodes = new Map()
+  const nodes = new Map() // contains a map of the nodes
   let radius
   let labels
   let graph
@@ -88,14 +88,14 @@ export default function () {
     // }
 
     function update() {
-      let data = config.data
-      let stepRad = 360 / data.length
+      const data = config.data
+      const stepRad = 360 / data.length
       let currAngle = -1.6
-      let diameter = radius * 2
+      const diameter = radius * 2
 
       // Calculate the angles for each node
       // And store the nodes in a Map
-      for (let node of data) {
+      for (const node of data) {
         node.angle = currAngle
         // angles.set(node.label, node.angle)
         nodes.set(node.label, node)
@@ -139,7 +139,7 @@ export default function () {
         .insert('text')
         .style('font-size', '12px')
         .style('text-anchor', (d) => {
-          let grades = d.angle * 180 / Math.PI
+          const grades = d.angle * 180 / Math.PI
           if (grades % 360 > 90 && grades % 360 < 275) {
             return 'end'
           }
@@ -148,7 +148,7 @@ export default function () {
         .text(d => d.label)
         .attr('alignment-baseline', 'central')
         .attr('transform', (d) => {
-          let grades = d.angle * 180 / Math.PI
+          const grades = d.angle * 180 / Math.PI
           if (grades % 360 > 90 && grades % 360 < 275) {
             return `translate(${10 * Math.cos(d.angle)},${10 * Math.sin(d.angle)}) rotate(${grades % 360 + 180})`
           }
@@ -200,8 +200,8 @@ export default function () {
       let min = Infinity
       let max = 0
       for (let i = 0; i < data.length; i++) {
-        let d = data[i]
-        let il = Object.keys(d.interactsWith).length
+        const d = data[i]
+        const il = Object.keys(d.interactsWith).length
         if (il > max) {
           max = il
         }
@@ -229,8 +229,8 @@ export default function () {
     let interacts = false
     fixedNodes.forEach(function (val, key) {
       // for (let [key, inter] of Object.entries(val.interactsWith)) {
-      for (let key of Object.keys(val.interactsWith)) {
-        let inter = val.interactsWith[key]
+      for (const key of Object.keys(val.interactsWith)) {
+        const inter = val.interactsWith[key]
         if (inter.label === node.label) {
           interacts = true
           break
@@ -268,7 +268,7 @@ export default function () {
         unselect.call(clickedNode, node)
       } else {
         // We have deselected, but there is still one selected. So take the other one and select it
-        let otherNode = fixedNodes.keys().next().value
+        const otherNode = fixedNodes.keys().next().value
         select.call(clickedNode, fixedNodes.get(otherNode))
         // fixedNodes.set(node.label, node)
       }
@@ -302,19 +302,19 @@ export default function () {
 
   // Compute the links given the data we have, the source/provenance filters that have been applied and the clicked (selected) nodes
   function computeLinks() {
-    let data = config.data
-    let filters = config.filters
+    const data = config.data
+    const filters = config.filters
 
     // A list of links between 2 nodes based on the data points and the filters on the sources
-    let links = []
+    const links = []
 
-    for (let d of data) {
+    for (const d of data) {
       // Reset the current sets of interactors
       // It has to be done in advance because we mirror interactors (if A->B, then B->A also in the currentInteractors), but this mirror can be lost when we get to that node (B)
       d.currentInteractors = {}
     }
 
-    for (let d of data) {
+    for (const d of data) {
       // if (!d.currentInteractors) {
       // Reset the current set of iteractors
       // d.currentInteractors = {}
@@ -325,8 +325,8 @@ export default function () {
           continue
         }
       }
-      for (let interName in d.interactsWith) {
-        if (d.interactsWith.hasOwnProperty(interName)) {
+      for (const interName in d.interactsWith) {
+        if (Object.prototype.hasOwnProperty.call(d.interactsWith, interName)) {
           // If two nodes are selected, this has to be there are well
           if (fixedNodes.size === 2) {
             if (!fixedNodes.get(interName)) {
@@ -334,15 +334,15 @@ export default function () {
             }
           }
 
-          let inter = d.interactsWith[interName]
+          const inter = d.interactsWith[interName]
 
-          let possibleInteraction = {
+          const possibleInteraction = {
             source: d,
             target: interName,
             provenance: []
           }
 
-          for (let prov of inter.provenance) {
+          for (const prov of inter.provenance) {
             // If the source has not been filtered out, include it
             if (!filters[prov.source]) {
               possibleInteraction.provenance.push(prov)
@@ -353,7 +353,7 @@ export default function () {
 
             // Only include the possible interaction if there is no fixed node or a fixed node is involved
             d.currentInteractors[interName] = inter
-            let linkedNode = nodes.get(interName)
+            const linkedNode = nodes.get(interName)
             linkedNode.currentInteractors[d.label] = d
             links.push(possibleInteraction)
           }
@@ -364,16 +364,16 @@ export default function () {
   }
 
   function updateLinks() {
-    let linksData = computeLinks()
-    let diameter = radius * 2
+    const linksData = computeLinks()
+    const diameter = radius * 2
 
-    let links = graph.selectAll('.openTargets_interactions_link')
+    const links = graph.selectAll('.openTargets_interactions_link')
       .data(linksData, (d) => [d.source.label, d.target].join('-'))
 
     // Fancy transition, inspired from: http://bl.ocks.org/duopixel/4063326
     links.exit()
       .each(function (d) {
-        let el = this
+        const el = this
         d.totalLength = el.getTotalLength()
       })
       .attr('stroke-dasharray', (d) => d.totalLength + ' ' + d.totalLength)
@@ -392,19 +392,19 @@ export default function () {
       .attr('stroke-dasharray', (d) => d.totalLength + ' ' + d.totalLength)
       .attr('stroke-dashoffset', 0)
       .attr('d', (d) => {
-        let fromAngle = d.source.angle + 0.001
-        let toAngle = nodes.get(d.target).angle + 0.001
-        let fromX = (diameter - 7) / 2 * Math.cos(fromAngle)
-        let fromY = (diameter - 7) / 2 * Math.sin(fromAngle)
-        let toX = (diameter - 7) / 2 * Math.cos(toAngle)
-        let toY = (diameter - 7) / 2 * Math.sin(toAngle)
+        const fromAngle = d.source.angle + 0.001
+        const toAngle = nodes.get(d.target).angle + 0.001
+        const fromX = (diameter - 7) / 2 * Math.cos(fromAngle)
+        const fromY = (diameter - 7) / 2 * Math.sin(fromAngle)
+        const toX = (diameter - 7) / 2 * Math.cos(toAngle)
+        const toY = (diameter - 7) / 2 * Math.sin(toAngle)
         return `M${fromX},${fromY} Q0,0 ${toX},${toY}`
       })
       .attr('fill', 'none')
       .attr('stroke', 'grey')
       .attr('stroke-width', 1)
       .each(function (d) {
-        let el = this
+        const el = this
         d.totalLength = el.getTotalLength()
       })
       .attr('stroke-dasharray', (d) => d.totalLength + ' ' + d.totalLength)
@@ -425,13 +425,13 @@ export default function () {
     // The method 'entries' called on an iterable returns a new Iterator object for each element in insertion order
     // https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Map
     // Remove all the colours
-    for (let node of config.data) {
+    for (const node of config.data) {
       delete node.color
     }
 
     // Set the color of the selected nodes
     let count = 0
-    for (let fixedNode of fixedNodes) {
+    for (const fixedNode of fixedNodes) {
       fixedNode[1].color = config.selectedNodesColors[count++]
     }
 
@@ -474,7 +474,7 @@ export default function () {
         // }
       })
       .each(function (d) {
-        let color = d.color
+        const color = d.color
         if (!color) {
           return
         }
@@ -489,13 +489,13 @@ export default function () {
         //     })
 
         // We create a new text element to know its size...
-        let textAux = svg.append('text').text(d.label)
+        const textAux = svg.append('text').text(d.label)
         const textBBox = textAux.node().getBBox()
         textAux.remove()
 
         // If it has color -> it has been selected -> add an `unselect` icon at the end of the label
-        let offset = 5
-        let closer = d3.select(this)
+        const offset = 5
+        const closer = d3.select(this)
           .append('g')
           .attr('class', 'openTargets_unselect_removeMe')
 
@@ -517,7 +517,7 @@ export default function () {
           .attr('stroke', 'black')
           .attr('stroke-width', 2)
           .attr('transform', (d) => {
-            let grades = d.angle * 180 / Math.PI
+            const grades = d.angle * 180 / Math.PI
             return `rotate(${grades % 360})`
           })
         closer.append('line')
@@ -528,12 +528,12 @@ export default function () {
           .attr('stroke', 'black')
           .attr('stroke-width', 2)
           .attr('transform', (d) => {
-            let grades = d.angle * 180 / Math.PI
+            const grades = d.angle * 180 / Math.PI
             return `rotate(${grades % 360})`
           })
 
         // Then we create the rect with the given dimensions
-        let rect = d3.select(this)
+        const rect = d3.select(this)
           .append('rect')
           .attr('class', 'openTargets_background_removeMe')
           .attr('x', 6)
@@ -542,7 +542,7 @@ export default function () {
           .attr('height', textBBox.height)
           .attr('fill', color)
           .attr('transform', (d) => {
-            let grades = d.angle * 180 / Math.PI
+            const grades = d.angle * 180 / Math.PI
             return `rotate(${grades % 360})`
           })
         // Move the element back
@@ -649,15 +649,15 @@ export default function () {
 
     updateLinks()
 
-    let iNames = []
+    const iNames = []
     for (const iName of fixedNodes.keys()) {
       iNames.push(iName)
     }
 
-    let provenance = new Map()
+    const provenance = new Map()
     addProvenance(fixedNodes.get(iNames[0]).interactsWith, fixedNodes.get(iNames[1]).label, provenance)
     addProvenance(fixedNodes.get(iNames[1]).interactsWith, fixedNodes.get(iNames[0]).label, provenance)
-    let interObj = {
+    const interObj = {
       interactor1: iNames[0],
       interactor2: iNames[1],
       provenance: Array.from(provenance.values())
@@ -671,7 +671,7 @@ export default function () {
     Object.keys(iw).forEach(function (i) {
       if (iw[i].label === i2) {
         // interactions = iw[i].provenance
-        for (let p of iw[i].provenance) {
+        for (const p of iw[i].provenance) {
           provenance.set(p.id, p)
         }
       }

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import {rgb, scaleLinear} from 'd3'
+import { rgb, scaleLinear } from 'd3'
 import InteractomePlot from './index'
-import {mount} from 'enzyme'
-import {__options__} from '../example/src/mock'
+import { mount } from 'enzyme'
+import { __options__ } from '../example/src/mock'
 
 SVGElement.prototype.getTotalLength = () => { return 0 } // Workaround for lack of SVG support in JSdom
 
@@ -17,7 +17,7 @@ class ExampleComponent extends Component {
       .domain([0, 1])
       .range(interactomeColorRange.range())
 
-    let options = {
+    const options = {
       data: __options__,
       el: this.element,
       colorScale: newColorScale
@@ -30,9 +30,9 @@ class ExampleComponent extends Component {
 
   render() {
     return (
-      <React.Fragment>
+      <>
         <div id='containerEl' ref={(e) => { this.element = e }} />
-      </React.Fragment>
+      </>
     )
   }
 }
@@ -46,6 +46,5 @@ describe('ExampleComponent', () => {
     const component = mount(<ExampleComponent />)
     expect(component).toBeTruthy()
     expect(component.find('div').length).toBe(1)
-
   })
 })

@@ -15,7 +15,7 @@ import * as interactomeConfig from './config'
  * @returns {{}}
  */
 const getNames = (bestHits) => {
-  let mapNames = {}
+  const mapNames = {}
   if (bestHits) {
     bestHits.forEach(bestHit => {
       // TODO: There are cases where the bestHitSearch doesn't give anything back. For now, we filter them out
@@ -41,13 +41,13 @@ const composeInteractors = (data) => {
   const mapNames = getNames(data.uniprotIds.data)
   const odbData = data.interactions
 
-  let interactors = {}
-  let sourceCategories = {}
-  let missingSources = {}
+  const interactors = {}
+  const sourceCategories = {}
+  const missingSources = {}
 
   odbData.forEach(function (link) {
-    let sourceObj = mapNames[link.source]
-    let targetObj = mapNames[link.target]
+    const sourceObj = mapNames[link.source]
+    const targetObj = mapNames[link.target]
 
     let source, target
     if (sourceObj) {
@@ -57,7 +57,7 @@ const composeInteractors = (data) => {
       target = targetObj.approved_symbol
     }
 
-    let provenance = link.sources
+    const provenance = link.sources
 
     if ((source && target) && (source !== target)) {
       if (!interactors[source]) {
@@ -85,8 +85,8 @@ const composeInteractors = (data) => {
         }
       }
       for (let f = 0; f < provenance.length; f++) {
-        let prov = provenance[f]
-        let sourceCat = interactomeConfig.otOmnipathdbSources[prov]
+        const prov = provenance[f]
+        const sourceCat = interactomeConfig.otOmnipathdbSources[prov]
         if (!sourceCat) {
           if (!missingSources[prov]) {
             missingSources[prov] = 0
@@ -133,21 +133,21 @@ const takeBestInteractors = (interactors, n) => {
     d.nInteractors = Object.keys(d.interactsWith).length
   })
 
-  let interactorsSelected = interactors.sort(function (a, b) {
+  const interactorsSelected = interactors.sort(function (a, b) {
     return b.nInteractors - a.nInteractors
   }).slice(0, n)
 
   // We need to eliminate the discarded nodes also from the interaction objects inside the nodes
   // interactors is now sorted, so we just have to take the slice [n,interactors.length]
-  let interactorsDiscarded = interactors.slice(n, interactors.length)
-  let discardedIndex = {}
+  const interactorsDiscarded = interactors.slice(n, interactors.length)
+  const discardedIndex = {}
   for (let i = 0; i < interactorsDiscarded.length; i++) {
     discardedIndex[interactorsDiscarded[i].label] = true
   }
   for (let j = 0; j < interactorsSelected.length; j++) {
-    let interactor = interactorsSelected[j]
-    for (let interacted in interactor.interactsWith) {
-      if (interactor.interactsWith.hasOwnProperty(interacted)) {
+    const interactor = interactorsSelected[j]
+    for (const interacted in interactor.interactsWith) {
+      if (Object.prototype.hasOwnProperty.call(interactor.interactsWith, interacted)) {
         if (discardedIndex[interacted]) {
           delete interactor.interactsWith[interacted]
         }
@@ -163,19 +163,19 @@ const takeBestInteractors = (interactors, n) => {
  * @returns {Array}
  */
 const composeInteractorsList = (interactors) => {
-  const {MAX_NODES} = interactomeConfig
+  const { MAX_NODES } = interactomeConfig
 
   let interactorsArr = []
-  let dataRange = [Infinity, 0]
+  const dataRange = [Infinity, 0]
 
-  for (let inter in interactors) {
-    if (interactors.hasOwnProperty(inter)) {
+  for (const inter in interactors) {
+    if (Object.prototype.hasOwnProperty.call(interactors, inter)) {
       // Leave out nodes without interactions
       if (Object.keys(interactors[inter].interactsWith).length) {
         interactorsArr.push(interactors[inter])
       }
       // Calculate data range
-      let il = Object.keys(interactors[inter].interactsWith).length
+      const il = Object.keys(interactors[inter].interactsWith).length
       dataRange[0] = il < dataRange[0] ? il : dataRange[0]
       dataRange[1] = il > dataRange[1] ? il : dataRange[1]
     }
@@ -194,7 +194,7 @@ const composeInteractorsList = (interactors) => {
 
 class InteractomePlot {
   static create = (options) => {
-    const {data, el, onMouseOver, onMouseLeave, onSelectTarget, onDeselectTarget, onInteraction, colorScale} = options
+    const { data, el, onMouseOver, onMouseLeave, onSelectTarget, onDeselectTarget, onInteraction, colorScale } = options
     const interactors = composeInteractors(data)[0]
     const categories = composeInteractors(data)[1]
     const interactorsList = composeInteractorsList(interactors)
@@ -245,7 +245,7 @@ class InteractomePlot {
           }
         })
 
-        onInteraction({
+        onInteraction && onInteraction({
           header: obj,
           currentInteractors: interactors
         })
@@ -261,7 +261,7 @@ class InteractomePlot {
   };
 
   static filterCategories = (cats, iv) => {
-    let filterOut = {}
+    const filterOut = {}
 
     /**
      * Function to get the left out current type selection
@@ -279,11 +279,11 @@ class InteractomePlot {
 
     // The filter can be in a category, so convert to individual sources
     for (let i = 0; i < cats.length; i++) {
-      let cat = cats[i]
-      let sourcesForCategory = interactomeConfig.otOmnipathdbCategories[cat]
+      const cat = cats[i]
+      const sourcesForCategory = interactomeConfig.otOmnipathdbCategories[cat]
       if (sourcesForCategory) {
-        for (let s in sourcesForCategory) {
-          if (sourcesForCategory.hasOwnProperty(s)) {
+        for (const s in sourcesForCategory) {
+          if (Object.prototype.hasOwnProperty.call(sourcesForCategory, s)) {
             filterOut[s] = true
           }
         }
