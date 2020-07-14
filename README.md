@@ -1,8 +1,11 @@
 # react-d3-interactome
 
-> 
+>
 
-[![NPM](https://img.shields.io/npm/v/react-d3-interactome.svg)](https://www.npmjs.com/package/react-d3-interactome) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/react-d3-interactome.svg)](https://www.npmjs.com/package/react-d3-interactome)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![build status](https://img.shields.io/travis/thehyve/react-d3-interactome/master.svg)](https://travis-ci.org/thehyve/react-d3-interactome)
+[![codecov](https://img.shields.io/codecov/c/github/thehyve/react-d3-interactome.svg)](https://codecov.io/gh/thehyve/react-d3-interactome)
 
 ## Pre-requisite
 
@@ -19,18 +22,18 @@ yarn add react-d3-interactome
 ```jsx
 import React, { Component } from 'react'
 
-import Interactome from 'react-d3-interactome'
+import InteractomePlot from 'react-d3-interactome'
 
-class Example extends Component {
+export default class Example extends Component {
   componentDidMount() {
     const interactomeColorRange = scaleLinear()
     .domain([0, 1])
     .range([rgb('#eed841'), rgb('#551a8b')])
-  
+
     const newColorScale = scaleLinear()
       .domain([0, 1])
       .range(interactomeColorRange.range())
-        
+
     let options = {
       data: __options__,
       el: document.getElementById('containerEl'),
@@ -52,7 +55,7 @@ class Example extends Component {
 }
 ```
 
-Check the `/example` for more details.
+Check the [/example](example) for more details.
 
 ## Development
 

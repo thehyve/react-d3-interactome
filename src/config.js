@@ -1,4 +1,4 @@
-import {rgb, scaleLinear} from 'd3'
+import { rgb, scaleLinear } from 'd3'
 
 export const MAX_NODES = 180
 export const selectedNodesColors = ['#ffe6e6', '#e6ecff']
@@ -29,45 +29,45 @@ export const newColorScale = scaleLinear()
 
 export const otOmnipathdbSources = {
   // Pathways
-  'SignaLink3': 'Pathways',
-  'Signor': 'Pathways',
+  SignaLink3: 'Pathways',
+  Signor: 'Pathways',
   // 'Reactome': 'Pathways', // This data is coming from Reactome directly, so removed from here
-  'SPIKE': 'Pathways',
+  SPIKE: 'Pathways',
 
   // Enzyme-substrate
-  'PhosphoPoint': 'Enzyme-substrate',
-  'HPRD': 'Enzyme-substrate',
+  PhosphoPoint: 'Enzyme-substrate',
+  HPRD: 'Enzyme-substrate',
   'HPRD-phos': 'Enzyme-substrate',
-  'MIMP': 'Enzyme-substrate',
-  'HuPho': 'Enzyme-substrate',
+  MIMP: 'Enzyme-substrate',
+  HuPho: 'Enzyme-substrate',
 
   // PPI
-  'BioGRID': 'PPI',
-  'InnateDB': 'PPI',
-  'IntAct': 'PPI',
-  'DIP': 'PPI',
-  'STRING': 'PPI'
+  BioGRID: 'PPI',
+  InnateDB: 'PPI',
+  IntAct: 'PPI',
+  DIP: 'PPI',
+  STRING: 'PPI'
 }
 
 export const otOmnipathdbCategories = {
-  'Pathways': {
-    'SignaLink3': true,
-    'Signor': true,
-    'Reactome': true,
-    'SPIKE': true
+  Pathways: {
+    SignaLink3: true,
+    Signor: true,
+    Reactome: true,
+    SPIKE: true
   },
   'Enzyme-substrate': {
-    'PhosphoPoint': true,
-    'HPRD': true,
+    PhosphoPoint: true,
+    HPRD: true,
     'HPRD-phos': true,
-    'MIMP': true,
-    'HuPho': true
+    MIMP: true,
+    HuPho: true
   },
-  'PPI': {
-    'BioGRID': true,
-    'InnateDB': true,
-    'IntAct': true,
-    'DIP': true,
-    'STRING': true
+  PPI: {
+    BioGRID: true,
+    InnateDB: true,
+    IntAct: true,
+    DIP: true,
+    STRING: true
   }
 }
